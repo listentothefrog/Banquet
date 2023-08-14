@@ -22,7 +22,7 @@ const signInWithGoogle = () => {
 export default function Home() {
   return (
     <main className="max-w-7xl p-8 h-full">
-      <div className="font-black text-2xl">🔐 Get Access</div>
+      <div className="font-black text-3xl">🔐 Get Access</div>
       <div className="mt-5 font-semibold">
         Here, conversations are laced with intellectual curiosity, and
         connections are woven with the threads of shared interests. Engage with
