@@ -36,10 +36,12 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="w-full mt-5">
-        <button className="w-full py-3 font-black rounded-lg bg-black text-white">
-          Get Access
-        </button>
+      <div className="w-full mt-10">
+        <Link href="/get-access">
+          <button className="text-sm w-full py-3 font-black rounded-lg bg-black text-white">
+            Get Access
+          </button>
+        </Link>
       </div>
     </main>
   );
