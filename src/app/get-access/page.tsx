@@ -1,25 +1,54 @@
+"use client";
+import { useRouter } from "next/navigation";
 import Google from "../../../public/Google.png";
 import Twitter from "../../../public/Twitter.png";
-import Apple from "../../../public/Apple.png";
 import Image from "next/image";
 import { auth } from "../../../firebase";
-import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+  signInWithRedirect,
+} from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const GoogleProvider = new GoogleAuthProvider();
-const signInWithGoogle = () => {
-  signInWithRedirect(auth, GoogleProvider)
-    .then((result: any) => {
-      const credential: any = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+const TwitterProvider = new TwitterAuthProvider();
 
-export default function Home() {
+const GetAccess = () => {
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (user) {
+    router.push("/discover");
+  }
+
+  const signInWithGoogle = () => {
+    signInWithRedirect(auth, GoogleProvider)
+      .then((result: any) => {
+        const credential: any = GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const signInWithTwitter = () => {
+    signInWithRedirect(auth, TwitterProvider)
+      .then((result: any) => {
+        const credential: any =
+          TwitterAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <main className="max-w-7xl p-8 h-full">
       <div className="font-black text-3xl">🔐 Get Access</div>
@@ -34,31 +63,33 @@ export default function Home() {
         exploration.
       </div>
       <div className="w-full mt-10">
-        <button className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center">
+        <button
+          onClick={signInWithGoogle}
+          className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center"
+        >
           <span className="mr-2">
             <Image src={Google} alt="Google Icon" width={20} />
           </span>
           Login with Google
         </button>
 
-        <button className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center mt-5">
+        <button
+          onClick={signInWithTwitter}
+          className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center mt-5"
+        >
           <span className="mr-2">
             <Image src={Twitter} alt="Google Icon" width={20} />
           </span>
           Login With Twitter
         </button>
-        <button className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center mt-5 ">
-          <span className="mr-2">
-            <Image src={Apple} alt="Google Icon" width={20} />
-          </span>
-          Login with Apple
-        </button>
       </div>
-      <div className="mt-5 text-sm">
+      <div className="mt-10 text-sm">
         By logging in you accept our{" "}
         <span className="font-bold">Privacy Policy</span> and{" "}
         <span className="font-bold">Terms of Service</span>
       </div>
     </main>
   );
-}
+};
+
+export default GetAccess;
