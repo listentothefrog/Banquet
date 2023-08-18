@@ -29,7 +29,7 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
     }
   };
   return (
-    <div className="w-11/12 flex flex-col ml-3 border-2 border-black rounded-lg">
+    <div className="w-11/12 mt-2 flex flex-col ml-3 border-2 border-black rounded-lg">
       <div className="m-4">
         <div>
           <p className="text-lg font-black">{title}</p>
@@ -39,9 +39,9 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
             {hashtags.map((hashtag, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center h-5 w-24 font-bold text-xs bg-black text-white text-center rounded-full"
+                className="flex items-center justify-center h-5 p-3 font-bold text-xs bg-black text-white text-center rounded-full"
               >
-                #{hashtag}
+                {hashtag}
               </div>
             ))}
           </div>
