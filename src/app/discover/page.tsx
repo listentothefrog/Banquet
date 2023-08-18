@@ -6,6 +6,7 @@ import Image from "next/image";
 import BanquetCommunityCard from "@/components/BanquetCommunityCard";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
+import HeaderComponent from "@/components/HeaderComponet";
 
 const Discover = () => {
   const router = useRouter();
@@ -30,22 +31,7 @@ const Discover = () => {
   }
   return (
     <div className="max-w-7xl h-full">
-      <header className="w-full h-14 mt-2">
-        <div className="w-full flex items-center justify-between">
-          <div>
-            <p className="text-3xl font-bold">🚪{""}Banquet</p>
-          </div>
-          <div className="mr-7">
-            <Image
-              src={user?.photoURL || ""}
-              alt="User's profile picture"
-              width={35}
-              height={35}
-              className="rounded-full"
-            />
-          </div>
-        </div>
-      </header>
+      <HeaderComponent profilePicture={user?.photoURL || ""} />
       <main className="max-w-7xl h-full">
         <div className="ml-3 mt-2 mb-5">
           <p className="font-semibold text-xl">Popular Banquet 🥂</p>
