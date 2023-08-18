@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import "./Modal.css";
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../../firebase";
 import { useRouter } from "next/navigation";
 
 interface BanquetCommunityCardProps {
