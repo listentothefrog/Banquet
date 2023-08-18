@@ -10,6 +10,7 @@ import {
   signInWithRedirect,
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useState } from "react";
 
 const GoogleProvider = new GoogleAuthProvider();
 const TwitterProvider = new TwitterAuthProvider();
@@ -17,6 +18,7 @@ const TwitterProvider = new TwitterAuthProvider();
 const GetAccess = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -27,25 +29,20 @@ const GetAccess = () => {
   const signInWithGoogle = () => {
     signInWithRedirect(auth, GoogleProvider)
       .then((result: any) => {
-        const credential: any = GoogleAuthProvider.credentialFromResult(result);
-        const user = result.user;
-        console.log(user);
+        router.push("/discover");
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        setErrorMessage("An error occurred during sign-in");
       });
   };
 
   const signInWithTwitter = () => {
     signInWithRedirect(auth, TwitterProvider)
       .then((result: any) => {
-        const credential: any =
-          TwitterAuthProvider.credentialFromResult(result);
-        const user = result.user;
-        console.log(user);
+        router.push("/discover");
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        setErrorMessage("An error occurred during sign-in");
       });
   };
 
@@ -82,6 +79,9 @@ const GetAccess = () => {
           </span>
           Login With Twitter
         </button>
+        <div className="mt-2 flex items-center justify-center">
+          <p className="text-red-500 font-bold text-sm">{errorMessage}</p>
+        </div>
       </div>
       <div className="mt-10 text-sm">
         By logging in you accept our{" "}
