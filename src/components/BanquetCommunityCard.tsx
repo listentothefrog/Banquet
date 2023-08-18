@@ -18,7 +18,6 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
 }) => {
   const lowerCaseTitle = title.toLowerCase();
   const formattedTitle = lowerCaseTitle.replace(/ /g, "");
-  console.log(formattedTitle);
   const router = useRouter();
   const [userInputPasscode, setUserInputPasscode] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
