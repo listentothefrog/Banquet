@@ -37,6 +37,7 @@ const Discover = () => {
         </div>
         {banquet.map((data: any) => (
           <BanquetCommunityCard
+            key={data.id}
             title={data.title}
             description={data.description}
             hashtags={data.hashtags}
