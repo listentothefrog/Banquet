@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation";
 import { auth, db } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Image from "next/image";
 import BanquetCommunityCard from "@/components/BanquetCommunityCard";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
