@@ -48,8 +48,8 @@ const CreateBanquet = () => {
       return;
     }
 
-    if (banquetDescription.length < 5 || banquetDescription.length > 300) {
-      setDescriptionError("Description must be between 5 and 300 characters");
+    if (banquetDescription.length < 5 || banquetDescription.length > 350) {
+      setDescriptionError("Description must be between 5 and 350 characters");
       return;
     }
     if (banquetPasscode.length < 5) {
