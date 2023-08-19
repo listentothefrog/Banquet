@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { title } from "process";
 
 const CreateBanquet = () => {
   const [user, loading] = useAuthState(auth);
@@ -15,7 +14,10 @@ const CreateBanquet = () => {
   const [hashtagsArray, setHashtagsArray] = useState([]);
   const [banquetPasscode, setBanquetPasscode] = useState("");
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [passcodeError, setPasscodeError] = useState("");
+
   const router = useRouter();
   if (loading) {
     return <div>Loading...</div>;
@@ -35,12 +37,33 @@ const CreateBanquet = () => {
   };
 
   const createBanquet = async () => {
+    if (
+      (banquetTitle.length < 0,
+      banquetDescription.length === 0,
+      banquetPasscode.length === 0)
+    ) {
+      setTitleError("Title is required");
+      setDescriptionError("Description is required");
+      setPasscodeError("Passcode is required");
+      return;
+    }
+
+    if (banquetDescription.length < 5 || banquetDescription.length > 300) {
+      setDescriptionError("Description must be between 5 and 300 characters");
+      return;
+    }
+    if (banquetPasscode.length < 5) {
+      setPasscodeError("Passcode must be at least 5 characters long");
+      return;
+    }
+
     await setDoc(doc(db, "Banquet", banquetTitle), {
       title: banquetTitle,
       description: banquetDescription,
       hashtags: hashtagsArray,
       passcode: banquetPasscode,
     });
+
     router.push("/discover");
   };
 
@@ -62,6 +85,11 @@ const CreateBanquet = () => {
           value={banquetTitle}
           className="w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10"
         />
+        {titleError && (
+          <p className="text-red-500 font-semibold text-sm mt-2">
+            {titleError}
+          </p>
+        )}
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Add a description</h1>
           <p className="font-semibold text-xs text-gray-500">
@@ -75,6 +103,11 @@ const CreateBanquet = () => {
           value={banquetDescription}
           className="w-11/12 mt-2 pt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-44"
         />
+        {descriptionError && (
+          <p className="text-red-500 font-semibold text-sm mt-2">
+            {descriptionError}
+          </p>
+        )}
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Hashtags</h1>
           <p className="font-semibold text-xs text-gray-500">
@@ -87,6 +120,7 @@ const CreateBanquet = () => {
           value={hashtags}
           className="w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10"
         />
+
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Passcode</h1>
           <p className="font-semibold text-xs text-gray-500">
@@ -99,6 +133,9 @@ const CreateBanquet = () => {
           value={banquetPasscode}
           className="w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10"
         />
+        {passcodeError && (
+          <p className="text-red-500 text-sm mt-2">{passcodeError}</p>
+        )}
         <div onClick={createBanquet} className="w-11/12 mt-5">
           <button className="w-full h-10 bg-black rounded-lg text-base font-bold text-white">
             Create
