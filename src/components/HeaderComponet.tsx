@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface HeaderComponentProfilePictureProps {
   profilePicture: string;
@@ -12,7 +13,9 @@ const HeaderComponent: React.FC<HeaderComponentProfilePictureProps> = ({
     <header className="w-full h-14 mt-2">
       <div className="w-full flex items-center justify-between">
         <div>
-          <p className="text-3xl font-bold">🚪{""}Banquet</p>
+          <Link href="/discover">
+            <p className="text-3xl font-bold">🚪{""}Banquet</p>
+          </Link>
         </div>
         <div className="mr-7">
           <Image
