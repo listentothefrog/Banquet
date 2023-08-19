@@ -34,7 +34,7 @@ const Discover = () => {
       <HeaderComponent profilePicture={user?.photoURL || ""} />
       <main className="max-w-7xl h-full">
         <div className="ml-3 mt-2 mb-5">
-          <p className="font-semibold text-xl">Popular Banquet 🥂</p>
+          <p className="font-semibold text-xl">Popular Banquets 🥂</p>
         </div>
         {banquet.map((data: any) => (
           <BanquetCommunityCard
