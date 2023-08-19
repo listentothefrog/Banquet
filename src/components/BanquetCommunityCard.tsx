@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import "./Modal.css";
 import { useRouter } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../../firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 interface BanquetCommunityCardProps {
   title: string;
@@ -16,13 +19,22 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
   description,
   passcode,
 }) => {
+  const [user] = useAuthState(auth);
   const lowerCaseTitle = title.toLowerCase();
   const formattedTitle = lowerCaseTitle.replace(/ /g, "");
   const router = useRouter();
   const [userInputPasscode, setUserInputPasscode] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
-  const validPasscode = () => {
+  const validPasscode = async () => {
     if (userInputPasscode === passcode) {
+      const docRef = doc(db, "Banquet", title);
+      const subCollectionRef = collection(docRef, "members");
+      const subCollectionData = {
+        uid: user?.uid,
+        role: "Member",
+        name: user?.displayName,
+      };
+      await setDoc(doc(subCollectionRef, user?.uid), subCollectionData);
       router.push(`banquet/${formattedTitle}`);
     } else {
       setStatusMessage("The passcode is invalid 🔒");
