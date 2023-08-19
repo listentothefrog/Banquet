@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 const CreateBanquet = () => {
   const [user, loading] = useAuthState(auth);
@@ -64,7 +64,18 @@ const CreateBanquet = () => {
       passcode: banquetPasscode,
     });
 
-    router.push("/discover");
+    const lowerCaseTitle = banquetTitle.toLowerCase();
+    const formattedTitle = lowerCaseTitle.replace(/ /g, "");
+
+    const docRef = doc(db, "Banquet", banquetTitle);
+    const subCollectionRef = collection(docRef, "members");
+    const subCollectionData = {
+      uid: user?.uid,
+      role: "Owner",
+      name: user?.displayName,
+    };
+    await setDoc(doc(subCollectionRef, user?.uid), subCollectionData);
+    router.push(`banquet/${formattedTitle}`);
   };
 
   return (
