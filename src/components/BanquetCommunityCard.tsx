@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 import "./Modal.css";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import {
+  DocumentSnapshot,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import Link from "next/link";
 
 interface BanquetCommunityCardProps {
   title: string;
@@ -25,6 +33,8 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
   const router = useRouter();
   const [userInputPasscode, setUserInputPasscode] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
+  const [userExits, setUserExits] = useState(false);
+
   const validPasscode = async () => {
     if (userInputPasscode === passcode) {
       const docRef = doc(db, "Banquet", title);
@@ -40,6 +50,26 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
       setStatusMessage("The passcode is invalid 🔒");
     }
   };
+
+  useEffect(() => {
+    const checkUserExits = async () => {
+      if (user) {
+        const querySnapshot = await getDocs(
+          collection(db, "Banquet", title, "members")
+        );
+
+        querySnapshot.forEach(async (doc: DocumentSnapshot) => {
+          if (doc.id === user.uid) {
+            // Fetch the user's document based on their uid
+            const userDocSnapshot = await getDoc(doc.ref);
+            setUserExits(true);
+          }
+        });
+      }
+    };
+    checkUserExits();
+  }, [user, title]);
+
   return (
     <div className="w-11/12 mt-2 flex flex-col ml-3 border-2 border-black rounded-lg">
       <div className="m-4">
@@ -62,47 +92,63 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
           <p className="text-sm font-semibold">{description}</p>
         </div>
         <div className="flex w-full flex-col mt-2">
-          <button className="bg-black h-10 rounded-lg text-white font-bold">
-            Share With Friends
-          </button>
-          <Popup
-            trigger={
-              <button className="mt-2 border-2 border-black h-10 rounded-lg font-bold">
-                Join 🎟️
+          {userExits ? (
+            <div className="flex w-full flex-col mt-2">
+              <button className="bg-black h-10 rounded-lg text-white font-bold">
+                Invite Friends
               </button>
-            }
-            modal
-            nested
-          >
-            {(close: any) => (
-              <div className="modal">
-                <button className="close" onClick={close}>
-                  &times;
-                </button>
-                <div className="header"> Join {title} Banquet </div>
-                <div className="content">{description}</div>
-                <div className="w-full">
-                  <input
-                    onChange={(e) => setUserInputPasscode(e.target.value)}
-                    value={userInputPasscode}
-                    className="w-full border-2 border-black text-gray-500 px-2 ml-1 h-10 rounded-lg text-sm"
-                    placeholder="Enter Passcode"
-                  />
-                  <button
-                    onClick={validPasscode}
-                    className="w-full mt-2 bg-black text-white ml-1 rounded-lg h-10 font-bold"
-                  >
-                    Join
+
+              <button className="mt-2 border-2 border-black h-10 rounded-lg font-bold">
+                <Link href={`/banquet/${formattedTitle}`}>
+                  Start Chatting 💬
+                </Link>
+              </button>
+            </div>
+          ) : (
+            <div className="flex w-full flex-col mt-2">
+              <button className="bg-black h-10 rounded-lg text-white font-bold">
+                Share With Friends
+              </button>
+              <Popup
+                trigger={
+                  <button className="mt-2 border-2 border-black h-10 rounded-lg font-bold">
+                    Join 🎟️
                   </button>
-                  <div className="mt-2 flex items-center justify-center">
-                    <p className="text-red-500 font-bold text-sm">
-                      {statusMessage}
-                    </p>
+                }
+                modal
+                nested
+              >
+                {(close: any) => (
+                  <div className="modal">
+                    <button className="close" onClick={close}>
+                      &times;
+                    </button>
+                    <div className="header"> Join {title} Banquet </div>
+                    <div className="content">{description}</div>
+                    <div className="w-full">
+                      <input
+                        onChange={(e) => setUserInputPasscode(e.target.value)}
+                        value={userInputPasscode}
+                        className="w-full border-2 border-black text-gray-500 px-2 ml-1 h-10 rounded-lg text-sm"
+                        placeholder="Enter Passcode"
+                      />
+                      <button
+                        onClick={validPasscode}
+                        className="w-full mt-2 bg-black text-white ml-1 rounded-lg h-10 font-bold"
+                      >
+                        Join
+                      </button>
+                      <div className="mt-2 flex items-center justify-center">
+                        <p className="text-red-500 font-bold text-sm">
+                          {statusMessage}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
-          </Popup>
+                )}
+              </Popup>
+            </div>
+          )}
         </div>
       </div>
     </div>
