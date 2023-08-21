@@ -27,7 +27,3 @@ Your feedback is essential. If you encounter issues or have suggestions, [create
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-Join us in shaping the future of event management with Banquet's alpha version!
