@@ -19,10 +19,6 @@ Thank you for considering contributing to the Banquet project! Your contribution
 
 If you encounter any bugs, issues, or have suggestions for improvements, please create an issue in the [Issue Tracker](https://github.com/listentothefrog/banquet/issues). Provide a clear description, steps to reproduce, and relevant details.
 
-## Code of Conduct
-
-By participating in this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
-
 ## License
 
 All contributions you make to the Banquet project are covered by the project's [MIT License](LICENSE).
