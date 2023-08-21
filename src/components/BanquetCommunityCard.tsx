@@ -37,7 +37,7 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
 
   const validPasscode = async () => {
     if (userInputPasscode === passcode) {
-      const docRef = doc(db, "Banquet", title);
+      const docRef = doc(db, "Banquet", formattedTitle);
       const subCollectionRef = collection(docRef, "members");
       const subCollectionData = {
         uid: user?.uid,
@@ -55,13 +55,13 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
     const checkUserExits = async () => {
       if (user) {
         const querySnapshot = await getDocs(
-          collection(db, "Banquet", title, "members")
+          collection(db, "Banquet", formattedTitle, "members")
         );
 
         querySnapshot.forEach(async (doc: DocumentSnapshot) => {
           if (doc.id === user.uid) {
             // Fetch the user's document based on their uid
-            const userDocSnapshot = await getDoc(doc.ref);
+            await getDoc(doc.ref);
             setUserExits(true);
           }
         });
