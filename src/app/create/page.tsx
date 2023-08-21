@@ -57,17 +57,17 @@ const CreateBanquet = () => {
       return;
     }
 
-    await setDoc(doc(db, "Banquet", banquetTitle), {
+    const lowerCaseTitle = banquetTitle.toLowerCase();
+    const formattedTitle = lowerCaseTitle.replace(/ /g, "");
+
+    await setDoc(doc(db, "Banquet", formattedTitle), {
       title: banquetTitle,
       description: banquetDescription,
       hashtags: hashtagsArray,
       passcode: banquetPasscode,
     });
 
-    const lowerCaseTitle = banquetTitle.toLowerCase();
-    const formattedTitle = lowerCaseTitle.replace(/ /g, "");
-
-    const docRef = doc(db, "Banquet", banquetTitle);
+    const docRef = doc(db, "Banquet", formattedTitle);
     const subCollectionRef = collection(docRef, "members");
     const subCollectionData = {
       uid: user?.uid,
