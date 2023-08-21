@@ -4,14 +4,7 @@ import "./Modal.css";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
-import {
-  DocumentSnapshot,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import Link from "next/link";
 
 interface BanquetCommunityCardProps {
@@ -33,7 +26,34 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
   const router = useRouter();
   const [userInputPasscode, setUserInputPasscode] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
-  const [userExits, setUserExits] = useState(false);
+
+  const [userExists, setUserExists] = useState(false);
+
+  useEffect(() => {
+    const checkUserExists = async () => {
+      if (user) {
+        const docRef = doc(db, "Banquet", formattedTitle);
+
+        try {
+          const docSnapshot = await getDoc(docRef);
+
+          if (docSnapshot.exists()) {
+            const subCollectionRef = collection(docRef, "members");
+            const subCollectionSnapshot = await getDocs(subCollectionRef);
+
+            subCollectionSnapshot.forEach((docSnapshot) => {
+              if (docSnapshot.id === user.uid) {
+                setUserExists(true);
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Error checking user existence:", error);
+        }
+      }
+    };
+    checkUserExists();
+  }, [user, formattedTitle]);
 
   const validPasscode = async () => {
     if (userInputPasscode === passcode) {
@@ -50,25 +70,6 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
       setStatusMessage("The passcode is invalid 🔒");
     }
   };
-
-  useEffect(() => {
-    const checkUserExits = async () => {
-      if (user) {
-        const querySnapshot = await getDocs(
-          collection(db, "Banquet", formattedTitle, "members")
-        );
-
-        querySnapshot.forEach(async (doc: DocumentSnapshot) => {
-          if (doc.id === user.uid) {
-            // Fetch the user's document based on their uid
-            await getDoc(doc.ref);
-            setUserExits(true);
-          }
-        });
-      }
-    };
-    checkUserExits();
-  }, [user, title]);
 
   return (
     <div className="w-11/12 mt-2 flex flex-col ml-3 border-2 border-black rounded-lg">
@@ -92,7 +93,7 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
           <p className="text-sm font-semibold">{description}</p>
         </div>
         <div className="flex w-full flex-col mt-2">
-          {userExits ? (
+          {userExists ? (
             <div className="flex w-full flex-col mt-2">
               <button className="bg-black h-10 rounded-lg text-white font-bold">
                 Invite Friends
