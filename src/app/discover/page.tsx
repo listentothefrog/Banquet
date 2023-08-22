@@ -5,24 +5,25 @@ import { auth, db } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { MoonLoader } from "react-spinners";
+import SpinnerComponent from "@/components/SpinnerComponent";
+
 const BanquetCommunityCard = dynamic(
   () => import("@/components/BanquetCommunityCard"),
   {
-    loading: () => <MoonLoader color="#000000" size={25} speedMultiplier={1} />,
+    loading: () => <SpinnerComponent />,
     ssr: true,
   }
 );
 const HeaderComponent = dynamic(
   () => import("@/components/Navigation/HeaderComponent"),
   {
-    loading: () => <MoonLoader color="#000000" size={25} speedMultiplier={1} />,
+    loading: () => <SpinnerComponent />,
   }
 );
 const BottomNavigation = dynamic(
   () => import("@/components/Navigation/BottomNavigation"),
   {
-    loading: () => <MoonLoader color="#000000" size={25} speedMultiplier={1} />,
+    loading: () => <SpinnerComponent />,
   }
 );
 
@@ -43,7 +44,7 @@ const Discover = () => {
 
   const [user, loading] = useAuthState(auth);
   if (loading) {
-    return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
+    return <SpinnerComponent />;
   }
   if (!user) {
     router.push("/");
