@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
-import SpinnerComponent from "@/components/SpinnerComponent";
+import { MoonLoader } from "react-spinners";
 
 const GoogleProvider = new GoogleAuthProvider();
 const TwitterProvider = new TwitterAuthProvider();
@@ -21,7 +21,7 @@ const GetAccess = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   if (loading) {
-    return <SpinnerComponent />;
+    return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
   }
   if (user) {
     router.push("/discover");
