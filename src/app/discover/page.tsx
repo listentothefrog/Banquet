@@ -6,6 +6,7 @@ import BanquetCommunityCard from "@/components/BanquetCommunityCard";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import HeaderComponent from "@/components/HeaderComponet";
+import BottomNavigation from "@/components/BottomNavigation";
 
 const Discover = () => {
   const router = useRouter();
@@ -47,6 +48,7 @@ const Discover = () => {
 
         <button onClick={() => auth.signOut()}>Sign out</button>
       </main>
+      <BottomNavigation />
     </div>
   );
 };
