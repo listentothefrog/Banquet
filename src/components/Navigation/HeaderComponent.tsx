@@ -17,15 +17,17 @@ const HeaderComponent: React.FC<HeaderComponentProfilePictureProps> = ({
             <p className="text-3xl font-bold">🚪{""}Banquet</p>
           </Link>
         </div>
-        <div className="mr-7">
-          <Image
-            src={profilePicture}
-            alt="User's profile picture"
-            width={35}
-            height={35}
-            className="rounded-full"
-          />
-        </div>
+        <Link href="/settings">
+          <div className="mr-7">
+            <Image
+              src={profilePicture}
+              alt="User's profile picture"
+              width={35}
+              height={35}
+              className="rounded-full"
+            />
+          </div>
+        </Link>
       </div>
     </header>
   );
