@@ -1,11 +1,16 @@
 "use client";
-import HeaderComponent from "@/components/Navigation/HeaderComponent";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
-
+import dynamic from "next/dynamic";
+const HeaderComponent = dynamic(
+  () => import("@/components/Navigation/HeaderComponent"),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
 const CreateBanquet = () => {
   const [user, loading] = useAuthState(auth);
   const [banquetTitle, setBanquetTitle] = useState("");

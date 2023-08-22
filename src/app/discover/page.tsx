@@ -1,12 +1,29 @@
 "use client";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { auth, db } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import BanquetCommunityCard from "@/components/BanquetCommunityCard";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import HeaderComponent from "@/components/Navigation/HeaderComponent";
-import BottomNavigation from "@/components/Navigation/BottomNavigation";
+const BanquetCommunityCard = dynamic(
+  () => import("@/components/BanquetCommunityCard"),
+  {
+    loading: () => <p>Loading...</p>,
+    ssr: true,
+  }
+);
+const HeaderComponent = dynamic(
+  () => import("@/components/Navigation/HeaderComponent"),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
+const BottomNavigation = dynamic(
+  () => import("@/components/Navigation/BottomNavigation"),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
 
 const Discover = () => {
   const router = useRouter();
