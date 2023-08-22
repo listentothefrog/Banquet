@@ -1,5 +1,5 @@
 "use client";
-import HeaderComponent from "@/components/Navigation/HeaderComponet";
+import HeaderComponent from "@/components/Navigation/HeaderComponent";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -37,11 +37,7 @@ const CreateBanquet = () => {
   };
 
   const createBanquet = async () => {
-    if (
-      (banquetTitle.length < 0,
-      banquetDescription.length === 0,
-      banquetPasscode.length === 0)
-    ) {
+    if (!banquetTitle || !banquetDescription || !banquetPasscode) {
       setTitleError("Title is required");
       setDescriptionError("Description is required");
       setPasscodeError("Passcode is required");
