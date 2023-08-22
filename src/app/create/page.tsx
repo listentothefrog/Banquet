@@ -5,10 +5,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import dynamic from "next/dynamic";
+import { MoonLoader } from "react-spinners";
 const HeaderComponent = dynamic(
   () => import("@/components/Navigation/HeaderComponent"),
   {
-    loading: () => <p>Loading...</p>,
+    loading: () => <MoonLoader color="#000000" size={25} speedMultiplier={1} />,
   }
 );
 const CreateBanquet = () => {
@@ -25,7 +26,7 @@ const CreateBanquet = () => {
 
   const router = useRouter();
   if (loading) {
-    return <div>Loading...</div>;
+    return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
   }
   if (!user) {
     router.push("/discover");
