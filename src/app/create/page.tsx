@@ -1,5 +1,5 @@
 "use client";
-import HeaderComponent from "@/components/HeaderComponet";
+import HeaderComponent from "@/components/Navigation/HeaderComponet";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";

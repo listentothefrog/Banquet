@@ -5,8 +5,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import BanquetCommunityCard from "@/components/BanquetCommunityCard";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import HeaderComponent from "@/components/HeaderComponet";
-import BottomNavigation from "@/components/BottomNavigation";
+import HeaderComponent from "@/components/Navigation/HeaderComponet";
+import BottomNavigation from "@/components/Navigation/BottomNavigation";
 
 const Discover = () => {
   const router = useRouter();
