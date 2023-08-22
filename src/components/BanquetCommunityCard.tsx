@@ -75,7 +75,7 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
     <div className="w-11/12 mt-2 flex flex-col ml-3 border-2 border-black rounded-lg">
       <div className="m-4">
         <div>
-          <p className="text-lg font-black">{title}</p>
+          <p className="text-base font-black">{title}</p>
         </div>
         <div className="flex items-center">
           <div className="flex items-center justify-center space-x-2 mt-2">
