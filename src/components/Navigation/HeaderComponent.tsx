@@ -10,15 +10,15 @@ const HeaderComponent: React.FC<HeaderComponentProfilePictureProps> = ({
   profilePicture,
 }) => {
   return (
-    <header className="w-full h-14 mt-2">
+    <header className="w-full h-14">
       <div className="w-full flex items-center justify-between">
-        <div>
+        <div className="mt-2">
           <Link href="/discover">
             <p className="text-3xl font-bold">🚪{""}Banquet</p>
           </Link>
         </div>
         <Link href="/settings">
-          <div className="mr-7">
+          <div className="mr-7 mt-2">
             <Image
               src={profilePicture}
               alt="User's profile picture"

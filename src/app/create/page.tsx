@@ -80,23 +80,35 @@ const CreateBanquet = () => {
     router.push(`banquet/${formattedTitle}`);
   };
 
+  const [themePreference, setThemePreference] = useState(
+    localStorage.getItem("themePreference") || "light"
+  );
+
   return (
-    <div className="max-w-7xl flex flex-col">
+    <div
+      className={`${
+        themePreference === "dark" ? "dark:bg-black dark:text-white" : ""
+      } max-w-7xl flex flex-col h-screen`}
+    >
       <HeaderComponent profilePicture={user?.photoURL || ""} />
       <div className="w-full ml-3">
         <div>
-          <h1 className="text-xl font-semibold">Create your Banquet 🥂</h1>
+          <h1 className="text-xl font-semibold mt-2">Create your Banquet 🥂</h1>
         </div>
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Name of your Banquet</h1>
-          <p className="font-semibold text-xs text-gray-500">
+          <p className="font-semibold text-xs text-gray-400">
             Enter a captivating name for your exclusive banquet.{" "}
           </p>
         </div>
         <input
           onChange={(e) => setBanquetTitle(e.target.value)}
           value={banquetTitle}
-          className="w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10"
+          className={`${
+            themePreference === "dark"
+              ? "dark:text-white dark:border-2 dark:bg-black dark:border-white"
+              : ""
+          } w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10`}
         />
         {titleError && (
           <p className="text-red-500 font-semibold text-sm mt-2">
@@ -105,7 +117,7 @@ const CreateBanquet = () => {
         )}
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Add a description</h1>
-          <p className="font-semibold text-xs text-gray-500">
+          <p className="font-semibold text-xs text-gray-400">
             Write a compelling description that paints a vivid picture of what
             your banquet is all about. Let your guests know what to expect and
             why your event is a must-attend.
@@ -114,7 +126,11 @@ const CreateBanquet = () => {
         <textarea
           onChange={(e) => setBanquetDescription(e.target.value)}
           value={banquetDescription}
-          className="w-11/12 mt-2 pt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-44"
+          className={`${
+            themePreference === "dark"
+              ? "dark:text-white dark:border-2 dark:bg-black dark:border-white "
+              : ""
+          } w-11/12 mt-2 pt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-44`}
         />
         {descriptionError && (
           <p className="text-red-500 font-semibold text-sm mt-2">
@@ -123,7 +139,7 @@ const CreateBanquet = () => {
         )}
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Hashtags</h1>
-          <p className="font-semibold text-xs text-gray-500">
+          <p className="font-semibold text-xs text-gray-400">
             Use hashtags to categorize your banquet and make it easily
             discoverable.
           </p>
@@ -131,12 +147,16 @@ const CreateBanquet = () => {
         <input
           onChange={handleInputChange}
           value={hashtags}
-          className="w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10"
+          className={`${
+            themePreference === "dark"
+              ? "dark:text-white dark:border-2 dark:bg-black dark:border-white"
+              : ""
+          } w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10`}
         />
 
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Passcode</h1>
-          <p className="font-semibold text-xs text-gray-500">
+          <p className="font-semibold text-xs text-gray-400">
             Set a secure passcode to ensure that only invited guests can join
             your private banquet.
           </p>
@@ -144,13 +164,21 @@ const CreateBanquet = () => {
         <input
           onChange={(e) => setBanquetPasscode(e.target.value)}
           value={banquetPasscode}
-          className="w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10"
+          className={`${
+            themePreference === "dark"
+              ? "dark:text-white dark:border-2 dark:bg-black dark:border-white"
+              : ""
+          } w-11/12 mt-2 text-black border-2 px-3 text-sm rounded-lg border-black h-10`}
         />
         {passcodeError && (
           <p className="text-red-500 text-sm mt-2">{passcodeError}</p>
         )}
         <div onClick={createBanquet} className="w-11/12 mt-5">
-          <button className="w-full h-10 bg-black rounded-lg text-base font-bold text-white">
+          <button
+            className={`${
+              themePreference === "dark" ? "dark:bg-white dark:text-black" : ""
+            } w-full h-10 bg-black rounded-lg text-base font-bold text-white`}
+          >
             Create
           </button>
         </div>

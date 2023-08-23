@@ -48,10 +48,18 @@ const Discover = () => {
   if (!user) {
     router.push("/");
   }
+
+  const [themePreference, setThemePreference] = useState(
+    localStorage.getItem("themePreference") || "light"
+  );
   return (
-    <div className="max-w-7xl h-full">
+    <div>
       <HeaderComponent profilePicture={user?.photoURL || ""} />
-      <main className="max-w-7xl h-full">
+      <main
+        className={`${
+          themePreference === "dark" ? "dark:bg-black text-white" : ""
+        } max-w-7xl h-screen`}
+      >
         <div className="flex items-center justify-between w-11/12 ml-3 mt-2 mb-5">
           <p
             onClick={() => setRenderYourBanquet(true)}
@@ -67,9 +75,9 @@ const Discover = () => {
           </p>
         </div>
         {renderYourBanquet ? (
-          <div className="">hello world</div>
+          <div>hello world</div>
         ) : (
-          <div className="">
+          <div>
             {banquet.map((data: any) => (
               <BanquetCommunityCard
                 key={data.id}

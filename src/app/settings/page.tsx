@@ -18,6 +18,7 @@ const SettingsPage = () => {
   const handleThemeChange = (theme: any) => {
     setThemePreference(theme);
   };
+
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
 
@@ -35,7 +36,11 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="max-w-7xl flex flex-col">
+    <div
+      className={`${
+        themePreference === "dark" ? "dark:bg-black text-white" : ""
+      } max-w-7xl flex flex-col h-screen`}
+    >
       <HeaderComponent profilePicture={user?.photoURL || ""} />
       <div className="mt-6 ml-3">
         <h1 className="text-2xl font-bold">Account Settings</h1>
@@ -81,7 +86,11 @@ const SettingsPage = () => {
           <p className="text-2xl font-bold">Themes</p>
         </div>
         <div className="mt-2 space-y-2 w-full">
-          <div className="px-2 flex items-center justify-between h-16 border-2 border-black rounded-lg">
+          <div
+            className={`${
+              themePreference === "dark" ? "border-white" : ""
+            } px-2 flex items-center justify-between h-16 border-2 border-black rounded-lg`}
+          >
             <div>
               <span className="text-lg cursor-pointer">☀️ Light Theme</span>
               <p className="text-sm text-gray-500 ml-2">
@@ -98,7 +107,11 @@ const SettingsPage = () => {
               />
             </div>
           </div>
-          <div className="px-2 flex items-center justify-between h-16 border-2 border-black rounded-lg">
+          <div
+            className={`${
+              themePreference === "dark" ? "border-white text-white" : ""
+            } px-2 flex items-center justify-between text-black h-16 border-2 border-black rounded-lg`}
+          >
             <div>
               <span className="text-lg cursor-pointer">🌙 Dark Theme</span>
               <p className="text-sm text-gray-500 ml-2">
@@ -124,11 +137,17 @@ const SettingsPage = () => {
         <div className="mt-2">
           <button
             onClick={signOut}
-            className="font-semibold w-full px-4 py-2 border-2 border-black rounded-lg"
+            className={`${
+              themePreference === "dark" ? "border-white text-white" : ""
+            } mt-3 font-semibold w-full px-4 py-2 border-2 border-black text-black rounded-lg`}
           >
             Sign Out
           </button>
-          <button className="mt-3 font-semibold w-full px-4 py-2 bg-black text-white rounded-lg">
+          <button
+            className={`${
+              themePreference === "dark" ? "dark:bg-white dark:text-black" : ""
+            } mt-3 font-semibold w-full px-4 py-2 bg-black text-white rounded-lg`}
+          >
             Delete Account
           </button>
         </div>

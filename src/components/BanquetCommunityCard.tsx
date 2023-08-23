@@ -27,6 +27,10 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
   const [userInputPasscode, setUserInputPasscode] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
 
+  const [themePreference, setThemePreference] = useState(
+    localStorage.getItem("themePreference") || "light"
+  );
+
   const [userExists, setUserExists] = useState(false);
 
   useEffect(() => {
@@ -72,17 +76,31 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
   };
 
   return (
-    <div className="w-11/12 mt-2 flex flex-col ml-3 border-2 border-black rounded-lg">
+    <div
+      className={`${
+        themePreference === "dark" ? "dark:border-white" : ""
+      } max-w-7xl h-full w-11/12 mt-2 flex flex-col ml-3 border-2 border-black rounded-lg`}
+    >
       <div className="m-4">
         <div>
-          <p className="text-base font-black">{title}</p>
+          <p
+            className={`${
+              themePreference === "dark" ? "dark:text-white" : ""
+            } text-base font-black`}
+          >
+            {title}
+          </p>
         </div>
         <div className="flex items-center">
           <div className="flex items-center justify-center space-x-2 mt-2">
             {hashtags.map((hashtag, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center h-5 p-3 font-bold text-xs bg-black text-white text-center rounded-full"
+                className={`${
+                  themePreference === "dark"
+                    ? "dark:bg-white dark:text-black"
+                    : ""
+                } flex items-center justify-center h-5 p-3 font-bold text-xs bg-black text-white text-center rounded-full`}
               >
                 {hashtag}
               </div>
@@ -95,11 +113,23 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
         <div className="flex w-full flex-col mt-2">
           {userExists ? (
             <div className="flex w-full flex-col mt-2">
-              <button className="bg-black h-10 rounded-lg text-white font-bold">
+              <button
+                className={`${
+                  themePreference === "dark"
+                    ? "dark:border-white dark:border-2"
+                    : ""
+                } bg-black h-10 rounded-lg text-white font-bold`}
+              >
                 Invite Friends
               </button>
 
-              <button className="mt-2 border-2 border-black h-10 rounded-lg font-bold">
+              <button
+                className={`${
+                  themePreference === "dark"
+                    ? "dark:bg-white dark:text-black"
+                    : ""
+                } mt-2 border-2 border-black h-10 rounded-lg font-bold`}
+              >
                 <Link href={`/banquet/${formattedTitle}`}>
                   Start Chatting 💬
                 </Link>
@@ -107,12 +137,24 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
             </div>
           ) : (
             <div className="flex w-full flex-col mt-2">
-              <button className="bg-black h-10 rounded-lg text-white font-bold">
+              <button
+                className={`${
+                  themePreference === "dark"
+                    ? "dark:border-2 dark:border-white"
+                    : ""
+                } bg-black h-10 rounded-lg text-white font-bold`}
+              >
                 Share With Friends
               </button>
               <Popup
                 trigger={
-                  <button className="mt-2 border-2 border-black h-10 rounded-lg font-bold">
+                  <button
+                    className={`${
+                      themePreference === "dark"
+                        ? "dark:bg-white dark:text-black"
+                        : ""
+                    } mt-2 border-2 border-black h-10 rounded-lg font-bold`}
+                  >
                     Join 🎟️
                   </button>
                 }
