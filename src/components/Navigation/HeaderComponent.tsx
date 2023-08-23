@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,8 +9,15 @@ interface HeaderComponentProfilePictureProps {
 const HeaderComponent: React.FC<HeaderComponentProfilePictureProps> = ({
   profilePicture,
 }) => {
+  const [themePreference, setThemePreference] = useState(
+    localStorage.getItem("themePreference") || "light"
+  );
   return (
-    <header className="w-full h-14">
+    <header
+      className={`${
+        themePreference === "dark" ? "dark:bg-black dark:text-white" : ""
+      } w-full h-14`}
+    >
       <div className="w-full flex items-center justify-between">
         <div className="mt-2">
           <Link href="/discover">

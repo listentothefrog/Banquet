@@ -60,7 +60,7 @@ const Discover = () => {
           themePreference === "dark" ? "dark:bg-black text-white" : ""
         } max-w-7xl h-screen`}
       >
-        <div className="flex items-center justify-between w-11/12 ml-3 mt-2 mb-5">
+        <div className="flex items-center justify-between w-11/12 ml-3 mb-5">
           <p
             onClick={() => setRenderYourBanquet(true)}
             className="font-semibold text-base cursor-pointer"
