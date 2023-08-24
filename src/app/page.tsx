@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="max-w-7xl p-8 h-full">
       <div className="font-black text-2xl">👋 Welcome to Banquet</div>
-      <div className="mt-5 font-semibold">
+      <div className="text-base mt-5">
         Banquet is your ticket to a world of refined social connections and
         exclusive gatherings. Elevate your event experiences and forge
         meaningful connections with a community of like-minded individuals who

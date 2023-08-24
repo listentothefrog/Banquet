@@ -50,7 +50,7 @@ const GetAccess = () => {
   return (
     <main className="max-w-7xl p-8 h-full">
       <div className="font-black text-3xl">🔐 Get Access</div>
-      <div className="mt-5 font-semibold">
+      <div className="mt-5 text-base">
         Here, conversations are laced with intellectual curiosity, and
         connections are woven with the threads of shared interests. Engage with
         like-minded individuals who appreciate the subtleties, the nuances, and
