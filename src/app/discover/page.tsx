@@ -64,13 +64,21 @@ const Discover = () => {
         <div className="flex items-center justify-between w-11/12 ml-3 mb-5">
           <p
             onClick={() => setRenderYourBanquet(true)}
-            className="font-semibold text-base cursor-pointer"
+            className={`${
+              renderYourBanquet
+                ? "font-semibold text-base cursor-pointer"
+                : "font-semibold text-base cursor-pointer opacity-50"
+            }`}
           >
             Your Banquets 🥂
           </p>
           <p
             onClick={() => setRenderYourBanquet(false)}
-            className="font-semibold text-base cursor-pointer"
+            className={`${
+              renderYourBanquet
+                ? "font-semibold text-base cursor-pointer opacity-50"
+                : "font-semibold text-base cursor-pointer"
+            }`}
           >
             Popular Banquets 🥂
           </p>
