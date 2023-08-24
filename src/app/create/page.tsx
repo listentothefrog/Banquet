@@ -67,6 +67,7 @@ const CreateBanquet = () => {
       description: banquetDescription,
       hashtags: hashtagsArray,
       passcode: banquetPasscode,
+      creatorUID: user?.uid,
     });
 
     const docRef = doc(db, "Banquet", formattedTitle);
