@@ -12,6 +12,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import { MoonLoader } from "react-spinners";
+import { signInWithGoogle, signInWithTwitter } from "@/functions/functions";
 
 const GoogleProvider = new GoogleAuthProvider();
 const TwitterProvider = new TwitterAuthProvider();
@@ -20,32 +21,13 @@ const GetAccess = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
+
   if (loading) {
     return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
   }
   if (user) {
     router.push("/discover");
   }
-
-  const signInWithGoogle = () => {
-    signInWithRedirect(auth, GoogleProvider)
-      .then((result: any) => {
-        router.push("/discover");
-      })
-      .catch(() => {
-        setErrorMessage("An error occurred during sign-in");
-      });
-  };
-
-  const signInWithTwitter = () => {
-    signInWithRedirect(auth, TwitterProvider)
-      .then((result: any) => {
-        router.push("/discover");
-      })
-      .catch(() => {
-        setErrorMessage("An error occurred during sign-in");
-      });
-  };
 
   return (
     <main className="max-w-7xl p-8 h-full">
@@ -62,7 +44,7 @@ const GetAccess = () => {
       </div>
       <div className="w-full mt-10">
         <button
-          onClick={signInWithGoogle}
+          onClick={() => signInWithGoogle(GoogleProvider)}
           className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center"
         >
           <span className="mr-2">
@@ -72,7 +54,7 @@ const GetAccess = () => {
         </button>
 
         <button
-          onClick={signInWithTwitter}
+          onClick={() => signInWithTwitter(TwitterProvider)}
           className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center mt-5"
         >
           <span className="mr-2">

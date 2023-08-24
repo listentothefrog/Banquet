@@ -7,15 +7,7 @@ import HeaderComponent from "@/components/Navigation/HeaderComponent";
 import SpinnerComponent from "@/components/SpinnerComponent";
 import Popup from "reactjs-popup";
 import "../../components/Modal.css";
-import {
-  getDocs,
-  collection,
-  where,
-  collectionGroup,
-  getDoc,
-  deleteDoc,
-  query,
-} from "firebase/firestore";
+import { signOut } from "@/functions/functions";
 const SettingsPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [themePreference, setThemePreference] = useState(
@@ -41,10 +33,6 @@ const SettingsPage = () => {
     auth.signOut();
     router.push("/");
   }
-
-  const signOut = () => {
-    auth.signOut();
-  };
 
   return (
     <div
@@ -150,7 +138,7 @@ const SettingsPage = () => {
         </div>
         <div className="mt-2">
           <button
-            onClick={signOut}
+            onClick={() => signOut()}
             className={`${
               themePreference === "dark" ? "border-white text-white" : ""
             } mt-3 font-semibold w-full px-4 py-2 border-2 border-black text-black rounded-lg`}
