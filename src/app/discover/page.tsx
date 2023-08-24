@@ -31,6 +31,10 @@ const Discover = () => {
   const [banquet, setBanquet] = useState([]);
   const [renderYourBanquet, setRenderYourBanquet] = useState(false);
 
+  const [themePreference, setThemePreference] = useState(
+    localStorage.getItem("themePreference") || "light"
+  );
+
   useEffect(() => {
     const getData = async () => {
       const banquet: any = await getDocs(collection(db, "Banquet"));
@@ -49,9 +53,6 @@ const Discover = () => {
     router.push("/");
   }
 
-  const [themePreference, setThemePreference] = useState(
-    localStorage.getItem("themePreference") || "light"
-  );
   return (
     <div>
       <HeaderComponent profilePicture={user?.photoURL || ""} />
