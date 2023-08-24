@@ -24,6 +24,10 @@ const CreateBanquet = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [passcodeError, setPasscodeError] = useState("");
 
+  const [themePreference, setThemePreference] = useState(
+    localStorage.getItem("themePreference") || "light"
+  );
+
   const router = useRouter();
   if (loading) {
     return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
@@ -81,10 +85,6 @@ const CreateBanquet = () => {
     router.push(`banquet/${formattedTitle}`);
   };
 
-  const [themePreference, setThemePreference] = useState(
-    localStorage.getItem("themePreference") || "light"
-  );
-
   return (
     <div
       className={`${
@@ -98,7 +98,7 @@ const CreateBanquet = () => {
         </div>
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Name of your Banquet</h1>
-          <p className="font-semibold text-xs text-gray-400">
+          <p className="font-semibold text-xs text-gray-500">
             Enter a captivating name for your exclusive banquet.{" "}
           </p>
         </div>
@@ -118,7 +118,7 @@ const CreateBanquet = () => {
         )}
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Add a description</h1>
-          <p className="font-semibold text-xs text-gray-400">
+          <p className="font-semibold text-xs text-gray-500">
             Write a compelling description that paints a vivid picture of what
             your banquet is all about. Let your guests know what to expect and
             why your event is a must-attend.
@@ -140,7 +140,7 @@ const CreateBanquet = () => {
         )}
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Hashtags</h1>
-          <p className="font-semibold text-xs text-gray-400">
+          <p className="font-semibold text-xs text-gray-500">
             Use hashtags to categorize your banquet and make it easily
             discoverable.
           </p>
@@ -157,7 +157,7 @@ const CreateBanquet = () => {
 
         <div className="mt-5 w-11/12">
           <h1 className="mb-2 text-base font-bold">Passcode</h1>
-          <p className="font-semibold text-xs text-gray-400">
+          <p className="font-semibold text-xs text-gray-500">
             Set a secure passcode to ensure that only invited guests can join
             your private banquet.
           </p>
