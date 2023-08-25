@@ -1,18 +1,37 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { auth, db } from "../../../../firebase";
 import ChatHeader from "@/components/Navigation/ChatHeader";
 
 const CommunityPage = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const modifiedPath = pathname.replace(/^\/banquet\//, "");
   const [chats, setChats] = useState([]);
   const [banquetName, setBanquetName] = useState("");
 
   useEffect(() => {
+    const checkMembership = async () => {
+      const user = auth.currentUser;
+
+      const banquetDocRef = doc(db, "Banquet", modifiedPath, banquetName);
+      const membersCollectionRef = collection(banquetDocRef, "members");
+
+      const membersQuerySnapshot = await getDocs(membersCollectionRef);
+
+      const userIsMember = membersQuerySnapshot.docs.some(
+        (doc) => doc.data().uid === user?.uid
+      );
+
+      if (userIsMember) {
+        return;
+      } else {
+        router.push("/discover");
+      }
+    };
     const fetchBanquetName = async () => {
       const banquetRef = doc(db, "Banquet", modifiedPath);
       const docSnapshot = await getDoc(banquetRef);
@@ -22,22 +41,7 @@ const CommunityPage = () => {
     };
     const fetchChats = async () => {
       if (pathname) {
-        const user = auth.currentUser;
-
         const banquetDocRef = doc(db, "Banquet", modifiedPath, banquetName);
-        const membersCollectionRef = collection(banquetDocRef, "members");
-
-        const membersQuerySnapshot = await getDocs(membersCollectionRef);
-
-        const userIsMember = membersQuerySnapshot.docs.some(
-          (doc) => doc.data().uid === user?.uid
-        );
-
-        if (userIsMember) {
-          console.log("User is a member of this banquet");
-        } else {
-          console.log("User is not a member of this banquet");
-        }
         const chatsCollectionRef = collection(banquetDocRef, "chats");
         const querySnapshot = await getDocs(chatsCollectionRef);
         const chatData: any = [];
@@ -47,6 +51,7 @@ const CommunityPage = () => {
         setChats(chatData);
       }
     };
+    checkMembership();
     fetchBanquetName();
     fetchChats();
   }, [pathname]);
