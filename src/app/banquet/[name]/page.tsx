@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import Link from "next/link";
+import ChatHeader from "@/components/Navigation/ChatHeader";
 
 const CommunityPage = () => {
   const pathname = usePathname();
@@ -30,17 +31,7 @@ const CommunityPage = () => {
 
   return (
     <div className="max-w-7xl h-full">
-      <div className="flex items-center mt-3">
-        <div className="flex items-start justify-center ml-3">
-          <Link href="/discover">👈</Link>
-        </div>
-        <div className="w-full flex items-center justify-center">
-          <p className="text-center">{modifiedPath}</p>
-        </div>
-        <div className="flex items-start justify-center mr-3">
-          <Link href={`${modifiedPath}/settings`}>⚙️</Link>
-        </div>
-      </div>
+      <ChatHeader banquetTitle={modifiedPath} />
     </div>
   );
 };
