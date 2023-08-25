@@ -2,9 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase";
-import Link from "next/link";
 import ChatHeader from "@/components/Navigation/ChatHeader";
 
 const CommunityPage = () => {
