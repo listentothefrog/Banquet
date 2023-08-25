@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { auth, db } from "../../../../firebase";
 import ChatHeader from "@/components/Navigation/ChatHeader";
 
 const CommunityPage = () => {
@@ -22,8 +22,22 @@ const CommunityPage = () => {
     };
     const fetchChats = async () => {
       if (pathname) {
-        const banquetDocRef = doc(db, "Banquet", modifiedPath);
+        const user = auth.currentUser;
 
+        const banquetDocRef = doc(db, "Banquet", modifiedPath, banquetName);
+        const membersCollectionRef = collection(banquetDocRef, "members");
+
+        const membersQuerySnapshot = await getDocs(membersCollectionRef);
+
+        const userIsMember = membersQuerySnapshot.docs.some(
+          (doc) => doc.data().uid === user?.uid
+        );
+
+        if (userIsMember) {
+          console.log("User is a member of this banquet");
+        } else {
+          console.log("User is not a member of this banquet");
+        }
         const chatsCollectionRef = collection(banquetDocRef, "chats");
         const querySnapshot = await getDocs(chatsCollectionRef);
         const chatData: any = [];
