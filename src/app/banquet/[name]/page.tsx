@@ -2,7 +2,14 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 import { auth, db } from "../../../../firebase";
 import ChatHeader from "@/components/Navigation/ChatHeader";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -42,21 +49,29 @@ const CommunityPage = () => {
         setBanquetName(docSnapshot.data().title);
       }
     };
-    const fetchChats = async () => {
+    const fetchChats = () => {
       if (pathname) {
         const banquetDocRef = doc(db, "Banquet", modifiedPath);
         const chatsCollectionRef = collection(banquetDocRef, "chats");
-        const querySnapshot = await getDocs(chatsCollectionRef);
-        const chatData: any = [];
-        querySnapshot.forEach((doc) => {
-          chatData.push(doc.data());
+
+        const unsubscribe = onSnapshot(chatsCollectionRef, (querySnapshot) => {
+          const chatData: any = [];
+          querySnapshot.forEach((doc) => {
+            chatData.push(doc.data());
+          });
+          setChats(chatData);
         });
-        setChats(chatData);
+
+        return unsubscribe;
       }
     };
     checkMembership();
     fetchBanquetName();
-    fetchChats();
+    const unsubscribe: any = fetchChats();
+
+    return () => {
+      unsubscribe();
+    };
   }, [pathname]);
 
   const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,7 +94,13 @@ const CommunityPage = () => {
   return (
     <div className="max-w-7xl h-full">
       <ChatHeader banquetTitle={banquetName} />
-      <div className="w-11/12 h-screen ml-4 mt-3"></div>
+      <div className="w-11/12 h-screen ml-4 mt-3">
+        {chats.map((chat: any, index) => (
+          <div key={index} className="chat">
+            <p>{chat.text}</p>
+          </div>
+        ))}
+      </div>
       <form
         onSubmit={sendMessage}
         className="fixed bottom-0 flex items-center w-full border-2 border-t-black h-16"
