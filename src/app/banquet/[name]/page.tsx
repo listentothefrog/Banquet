@@ -21,6 +21,8 @@ const ChatHeader = dynamic(() => import("@/components/Navigation/ChatHeader"), {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import SpinnerComponent from "@/components/SpinnerComponent";
+import Image from "next/image";
+
 const CommunityPage = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -29,9 +31,9 @@ const CommunityPage = () => {
   const [banquetName, setBanquetName] = useState("");
   const [user] = useAuthState(auth);
 
-  if (!user) {
-    router.push("/");
-  }
+  // if (!user) {
+  //   router.push("/");
+  // }
 
   const banquetDocRef = doc(db, "Banquet", modifiedPath);
   const chatsCollectionRef = collection(banquetDocRef, "chats");
@@ -92,7 +94,7 @@ const CommunityPage = () => {
     <div className="max-w-7xl h-full">
       <ChatHeader banquetTitle={banquetName} />
       <Suspense fallback={<SpinnerComponent />}>
-        <div className="h-screen ml-4 mr-4 mt-3 max-w-md">
+        <div className="h-screen ml-4 mr-4 mt-3 max-w-7xl">
           {messages &&
             messages.map((chat: any, index) => (
               <div
@@ -101,6 +103,15 @@ const CommunityPage = () => {
                   chat.uid === user?.uid ? "flex-row-reverse" : ""
                 }`}
               >
+                <Image
+                  className={`rounded-full ${
+                    chat.uid === user?.uid ? "ml-2" : "mr-2"
+                  }`}
+                  src={chat.photoURL}
+                  alt="Profile Picture"
+                  width={30}
+                  height={30}
+                />
                 <p
                   className={`${
                     chat.uid === user?.uid ? "sent" : "received"
