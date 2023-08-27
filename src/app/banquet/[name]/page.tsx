@@ -8,20 +8,29 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
 } from "firebase/firestore";
 import { auth, db } from "../../../../firebase";
 import ChatHeader from "@/components/Navigation/ChatHeader";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import { useCollectionData } from "react-firebase-hooks/firestore";
 const CommunityPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const modifiedPath = pathname.replace(/^\/banquet\//, "");
-  const [chats, setChats] = useState([]);
   const [userText, setUserText] = useState("");
   const [banquetName, setBanquetName] = useState("");
   const [user] = useAuthState(auth);
+
+  const banquetDocRef = doc(db, "Banquet", modifiedPath);
+  const chatsCollectionRef = collection(banquetDocRef, "chats");
+  const q = query(chatsCollectionRef, orderBy("createdAt"), limit(25));
+
+  const [messages] = useCollectionData(q);
 
   useEffect(() => {
     const checkMembership = async () => {
@@ -49,34 +58,14 @@ const CommunityPage = () => {
         setBanquetName(docSnapshot.data().title);
       }
     };
-    const fetchChats = () => {
-      if (pathname) {
-        const banquetDocRef = doc(db, "Banquet", modifiedPath);
-        const chatsCollectionRef = collection(banquetDocRef, "chats");
-
-        const unsubscribe = onSnapshot(chatsCollectionRef, (querySnapshot) => {
-          const chatData: any = [];
-          querySnapshot.forEach((doc) => {
-            chatData.push(doc.data());
-          });
-          setChats(chatData);
-        });
-
-        return unsubscribe;
-      }
-    };
     checkMembership();
     fetchBanquetName();
-    const unsubscribe: any = fetchChats();
-
-    return () => {
-      unsubscribe();
-    };
   }, [pathname]);
 
   const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     const banquetDocRef = doc(db, "Banquet", modifiedPath);
     const chatsCollectionRef = collection(banquetDocRef, "chats");
+
     event.preventDefault();
     if (userText.length > 0 && userText.length < 300) {
       await addDoc(chatsCollectionRef, {
@@ -84,6 +73,7 @@ const CommunityPage = () => {
         uid: user?.uid,
         photoURL: user?.photoURL,
         text: userText,
+        createdAt: serverTimestamp(),
       });
       setUserText("");
     } else {
@@ -95,26 +85,27 @@ const CommunityPage = () => {
     <div className="max-w-7xl h-full">
       <ChatHeader banquetTitle={banquetName} />
       <div className="h-screen ml-4 mr-4 mt-3 max-w-md">
-        {chats.map((chat: any, index) => (
-          <div
-            key={index}
-            className={`flex items-center mt-2 ${
-              chat.uid === user?.uid ? "flex-row-reverse" : ""
-            }`}
-          >
-            <p
-              className={`${
-                chat.uid === user?.uid ? "sent" : "received"
-              } p-2 rounded-lg ${
-                chat.uid === user?.uid
-                  ? "bg-black text-white"
-                  : "border-2 border-black text-black"
+        {messages &&
+          messages.map((chat: any, index) => (
+            <div
+              key={index}
+              className={`flex items-center mt-2 ${
+                chat.uid === user?.uid ? "flex-row-reverse" : ""
               }`}
             >
-              {chat.text}
-            </p>
-          </div>
-        ))}
+              <p
+                className={`${
+                  chat.uid === user?.uid ? "sent" : "received"
+                } p-2 rounded-lg ${
+                  chat.uid === user?.uid
+                    ? "bg-black text-white"
+                    : "border-2 border-black text-black"
+                }`}
+              >
+                {chat.text}
+              </p>
+            </div>
+          ))}
       </div>
       <form
         onSubmit={sendMessage}
