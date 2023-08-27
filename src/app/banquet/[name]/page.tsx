@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   addDoc,
   collection,
@@ -14,9 +15,12 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { auth, db } from "../../../../firebase";
-import ChatHeader from "@/components/Navigation/ChatHeader";
+const ChatHeader = dynamic(() => import("@/components/Navigation/ChatHeader"), {
+  loading: () => <SpinnerComponent />,
+});
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import SpinnerComponent from "@/components/SpinnerComponent";
 const CommunityPage = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -83,29 +87,32 @@ const CommunityPage = () => {
   return (
     <div className="max-w-7xl h-full">
       <ChatHeader banquetTitle={banquetName} />
-      <div className="h-screen ml-4 mr-4 mt-3 max-w-md">
-        {messages &&
-          messages.map((chat: any, index) => (
-            <div
-              key={index}
-              className={`flex items-center mt-2 ${
-                chat.uid === user?.uid ? "flex-row-reverse" : ""
-              }`}
-            >
-              <p
-                className={`${
-                  chat.uid === user?.uid ? "sent" : "received"
-                } p-2 rounded-lg ${
-                  chat.uid === user?.uid
-                    ? "bg-black text-white"
-                    : "border-2 border-black text-black"
+      <Suspense fallback={<SpinnerComponent />}>
+        <div className="h-screen ml-4 mr-4 mt-3 max-w-md">
+          {messages &&
+            messages.map((chat: any, index) => (
+              <div
+                key={index}
+                className={`flex items-center mt-2 ${
+                  chat.uid === user?.uid ? "flex-row-reverse" : ""
                 }`}
               >
-                {chat.text}
-              </p>
-            </div>
-          ))}
-      </div>
+                <p
+                  className={`${
+                    chat.uid === user?.uid ? "sent" : "received"
+                  } p-2 rounded-lg ${
+                    chat.uid === user?.uid
+                      ? "bg-black text-white"
+                      : "border-2 border-black text-black"
+                  }`}
+                >
+                  {chat.text}
+                </p>
+              </div>
+            ))}
+        </div>
+      </Suspense>
+
       <form
         onSubmit={sendMessage}
         className="fixed bottom-0 flex items-center w-full border-2 border-t-black h-16"
