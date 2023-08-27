@@ -103,15 +103,17 @@ const CommunityPage = () => {
                   chat.uid === user?.uid ? "flex-row-reverse" : ""
                 }`}
               >
-                <Image
-                  className={`rounded-full ${
-                    chat.uid === user?.uid ? "ml-2" : "mr-2"
-                  }`}
-                  src={chat.photoURL}
-                  alt="Profile Picture"
-                  width={32}
-                  height={32}
-                />
+                {chat.uid === user?.uid ? (
+                  ""
+                ) : (
+                  <Image
+                    className="mr-2 rounded-full"
+                    src={chat.photoURL}
+                    alt="Profile Picture"
+                    width={32}
+                    height={32}
+                  />
+                )}
                 <p
                   className={`${
                     chat.uid === user?.uid ? "sent" : "received"
