@@ -29,6 +29,10 @@ const CommunityPage = () => {
   const [banquetName, setBanquetName] = useState("");
   const [user] = useAuthState(auth);
 
+  if (!user) {
+    router.push("/");
+  }
+
   const banquetDocRef = doc(db, "Banquet", modifiedPath);
   const chatsCollectionRef = collection(banquetDocRef, "chats");
   const q = query(chatsCollectionRef, orderBy("createdAt"), limit(25));
