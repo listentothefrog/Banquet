@@ -3,9 +3,10 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { auth, db } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { MoonLoader } from "react-spinners";
+import SpinnerComponent from "@/components/SpinnerComponent";
 const BanquetCommunityCard = dynamic(
   () => import("@/components/BanquetCommunityCard"),
   {
@@ -87,15 +88,17 @@ const Discover = () => {
           <div>hello world</div>
         ) : (
           <div>
-            {banquet.map((data: any) => (
-              <BanquetCommunityCard
-                key={data.id}
-                title={data.title}
-                description={data.description}
-                hashtags={data.hashtags}
-                passcode={data.passcode}
-              />
-            ))}
+            <Suspense fallback={<SpinnerComponent />}>
+              {banquet.map((data: any) => (
+                <BanquetCommunityCard
+                  key={data.id}
+                  title={data.title}
+                  description={data.description}
+                  hashtags={data.hashtags}
+                  passcode={data.passcode}
+                />
+              ))}
+            </Suspense>
           </div>
         )}
       </main>
