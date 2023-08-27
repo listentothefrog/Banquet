@@ -94,10 +94,25 @@ const CommunityPage = () => {
   return (
     <div className="max-w-7xl h-full">
       <ChatHeader banquetTitle={banquetName} />
-      <div className="w-11/12 h-screen ml-4 mt-3">
+      <div className="h-screen ml-4 mr-4 mt-3 max-w-md">
         {chats.map((chat: any, index) => (
-          <div key={index} className="chat">
-            <p>{chat.text}</p>
+          <div
+            key={index}
+            className={`flex items-center mt-2 ${
+              chat.uid === user?.uid ? "flex-row-reverse" : ""
+            }`}
+          >
+            <p
+              className={`${
+                chat.uid === user?.uid ? "sent" : "received"
+              } p-2 rounded-lg ${
+                chat.uid === user?.uid
+                  ? "bg-black text-white"
+                  : "border-2 border-black text-black"
+              }`}
+            >
+              {chat.text}
+            </p>
           </div>
         ))}
       </div>
