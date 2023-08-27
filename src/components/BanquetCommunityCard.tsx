@@ -175,12 +175,22 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
                         className="w-full border-2 border-black text-gray-500 px-2 ml-1 h-10 rounded-lg text-sm"
                         placeholder="Enter Passcode"
                       />
+                      <div className="text-sm mt-2 ml-2 flex items-center justify-center">
+                        <p>
+                          Before joining {title} please read the{" "}
+                          <span className="text-red-500 hover:underline">
+                            community guidelines
+                          </span>
+                          .
+                        </p>
+                      </div>
                       <button
                         onClick={validPasscode}
                         className="w-full mt-2 bg-black text-white ml-1 rounded-lg h-10 font-bold"
                       >
                         Join
                       </button>
+
                       <div className="mt-2 flex items-center justify-center">
                         <p className="text-red-500 font-bold text-sm">
                           {statusMessage}
