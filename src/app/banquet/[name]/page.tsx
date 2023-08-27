@@ -109,8 +109,8 @@ const CommunityPage = () => {
                   }`}
                   src={chat.photoURL}
                   alt="Profile Picture"
-                  width={30}
-                  height={30}
+                  width={32}
+                  height={32}
                 />
                 <p
                   className={`${
