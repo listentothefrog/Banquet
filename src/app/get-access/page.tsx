@@ -4,15 +4,10 @@ import Google from "../../../public/Google.png";
 import Twitter from "../../../public/Twitter.png";
 import Image from "next/image";
 import { auth } from "../../../firebase";
-import {
-  GoogleAuthProvider,
-  TwitterAuthProvider,
-  signInWithRedirect,
-} from "firebase/auth";
+import { GoogleAuthProvider, TwitterAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import { MoonLoader } from "react-spinners";
-import { signInWithGoogle, signInWithTwitter } from "@/functions/functions";
 
 const GoogleProvider = new GoogleAuthProvider();
 const TwitterProvider = new TwitterAuthProvider();
@@ -44,7 +39,11 @@ const GetAccess = () => {
       </div>
       <div className="w-full mt-10">
         <button
-          onClick={() => signInWithGoogle(GoogleProvider)}
+          onClick={() =>
+            import("@/functions/functions").then((module) => {
+              module.signInWithGoogle(GoogleProvider);
+            })
+          }
           className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center"
         >
           <span className="mr-2">
@@ -54,7 +53,11 @@ const GetAccess = () => {
         </button>
 
         <button
-          onClick={() => signInWithTwitter(TwitterProvider)}
+          onClick={() =>
+            import("@/functions/functions").then((module) => {
+              module.signInWithTwitter(TwitterProvider);
+            })
+          }
           className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center mt-5"
         >
           <span className="mr-2">
