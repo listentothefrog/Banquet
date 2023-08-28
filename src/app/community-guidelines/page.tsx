@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const CommunityGuidelines = () => {
@@ -38,9 +39,11 @@ const CommunityGuidelines = () => {
         If you come across any content or behavior that violates these
         guidelines, please report it to the community administrators.
       </p>
-      <button className="w-full bg-black rounded-lg h-10 text-white font-bold mt-2">
-        Take me Back ⏲️
-      </button>
+      <Link href={"/discover"}>
+        <button className="w-full bg-black rounded-lg h-10 text-white font-bold mt-2">
+          Take me Back ⏲️
+        </button>
+      </Link>
     </div>
   );
 };
