@@ -178,9 +178,11 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
                       <div className="text-sm mt-2 ml-2 flex items-center justify-center">
                         <p>
                           Before joining {title} please read the{" "}
-                          <span className="text-red-500 hover:underline">
-                            community guidelines
-                          </span>
+                          <Link href="/community-guidelines">
+                            <span className="text-red-500 hover:underline">
+                              community guidelines
+                            </span>
+                          </Link>
                           .
                         </p>
                       </div>
