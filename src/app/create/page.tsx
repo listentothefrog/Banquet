@@ -146,7 +146,7 @@ const CreateBanquet = () => {
                 banquetTitle,
                 banquetDescription,
                 banquetPasscode,
-                hashtags,
+                hashtagsArray,
                 user,
                 setTitleError,
                 setDescriptionError,
