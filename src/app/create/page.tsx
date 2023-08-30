@@ -145,7 +145,7 @@ const CreateBanquet = () => {
         )}
         <div
           onClick={() =>
-            import("@/functions/createBanquet").then((module) => {
+            import("@/functions/createFunctions").then((module) => {
               module.createBanquet(
                 banquetTitle,
                 banquetDescription,
