@@ -2,8 +2,7 @@
 import { useRouter } from "next/navigation";
 import React, { Suspense, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../../firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { auth } from "../../../firebase";
 import dynamic from "next/dynamic";
 import SpinnerComponent from "@/components/SpinnerComponent";
 const HeaderComponent = dynamic(
