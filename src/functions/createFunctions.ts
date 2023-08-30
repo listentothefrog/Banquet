@@ -1,4 +1,10 @@
-import { setDoc, doc, collection } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
@@ -56,4 +62,27 @@ export const createBanquet = async (
   };
   await setDoc(doc(subCollectionRef, user?.uid), subCollectionData);
   router.push(`banquet/${formattedTitle}`);
+};
+
+export const sendMessage = async (
+  modifiedPath: string,
+  userText: string,
+  user: any,
+  setUserText: any
+) => {
+  const banquetDocRef = doc(db, "Banquet", modifiedPath);
+  const chatsCollectionRef = collection(banquetDocRef, "chats");
+
+  if (userText.length > 0 && userText.length < 300) {
+    await addDoc(chatsCollectionRef, {
+      sender: user?.displayName,
+      uid: user?.uid,
+      photoURL: user?.photoURL,
+      text: userText,
+      createdAt: serverTimestamp(),
+    });
+    setUserText("");
+  } else {
+    return;
+  }
 };
