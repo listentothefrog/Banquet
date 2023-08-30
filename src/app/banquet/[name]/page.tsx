@@ -92,7 +92,10 @@ const CommunityPage = () => {
   };
   return (
     <div className="max-w-7xl h-full">
-      <ChatHeader banquetTitle={banquetName} />
+      <Suspense fallback={<SpinnerComponent />}>
+        <ChatHeader banquetTitle={banquetName} />
+      </Suspense>
+
       <Suspense fallback={<SpinnerComponent />}>
         <div className="h-screen ml-4 mr-4 mt-3 max-w-7xl">
           {messages &&
