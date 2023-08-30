@@ -7,7 +7,7 @@ import HeaderComponent from "@/components/Navigation/HeaderComponent";
 import SpinnerComponent from "@/components/SpinnerComponent";
 import Popup from "reactjs-popup";
 import "../../components/Modal.css";
-import { signOut } from "@/functions/functions";
+import { signOut } from "@/functions/authFunctions";
 const SettingsPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [themePreference, setThemePreference] = useState(

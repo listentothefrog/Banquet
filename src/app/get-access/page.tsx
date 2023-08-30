@@ -40,7 +40,7 @@ const GetAccess = () => {
       <div className="w-full mt-10">
         <button
           onClick={() =>
-            import("@/functions/functions").then((module) => {
+            import("@/functions/authFunctions").then((module) => {
               module.signInWithGoogle(GoogleProvider);
             })
           }
@@ -54,7 +54,7 @@ const GetAccess = () => {
 
         <button
           onClick={() =>
-            import("@/functions/functions").then((module) => {
+            import("@/functions/authFunctions").then((module) => {
               module.signInWithTwitter(TwitterProvider);
             })
           }
