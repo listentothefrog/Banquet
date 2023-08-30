@@ -2,12 +2,11 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../../firebase";
+import { auth } from "../../../firebase";
 import HeaderComponent from "@/components/Navigation/HeaderComponent";
-import SpinnerComponent from "@/components/SpinnerComponent";
 import Popup from "reactjs-popup";
 import "../../components/Modal.css";
-import { signOut } from "@/functions/authFunctions";
+
 const SettingsPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [themePreference, setThemePreference] = useState(
@@ -26,11 +25,11 @@ const SettingsPage = () => {
   const [user, loading] = useAuthState(auth);
 
   if (loading) {
+    const SpinnerComponent = require("@/components/SpinnerComponent").default; // Import SpinnerComponent here
     return <SpinnerComponent />;
   }
 
   if (!user) {
-    auth.signOut();
     router.push("/");
   }
 
@@ -138,7 +137,11 @@ const SettingsPage = () => {
         </div>
         <div className="mt-2">
           <button
-            onClick={() => signOut()}
+            onClick={() =>
+              import("@/functions/authFunctions").then((module) => {
+                module.signOut();
+              })
+            }
             className={`${
               themePreference === "dark" ? "border-white text-white" : ""
             } mt-3 font-semibold w-full px-4 py-2 border-2 border-black text-black rounded-lg`}
