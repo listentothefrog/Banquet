@@ -3,10 +3,13 @@ import {
   TwitterAuthProvider,
   signInWithRedirect,
 } from "firebase/auth";
-import router from "next/router";
 import { auth } from "../../firebase";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
-export const signInWithGoogle = (Provider: GoogleAuthProvider) => {
+export const signInWithGoogle = (
+  Provider: GoogleAuthProvider,
+  router: AppRouterInstance
+) => {
   signInWithRedirect(auth, Provider)
     .then(() => {
       router.push("/discover");
@@ -16,7 +19,10 @@ export const signInWithGoogle = (Provider: GoogleAuthProvider) => {
     });
 };
 
-export const signInWithTwitter = (Provider: TwitterAuthProvider) => {
+export const signInWithTwitter = (
+  Provider: TwitterAuthProvider,
+  router: AppRouterInstance
+) => {
   signInWithRedirect(auth, Provider)
     .then((result: any) => {
       router.push("/discover");
