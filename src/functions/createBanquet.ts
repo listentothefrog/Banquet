@@ -2,6 +2,8 @@ import { setDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
+const EMOJI_REGEX = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
 export const createBanquet = async (
   banquetTitle: string,
   banquetDescription: string,
@@ -26,6 +28,11 @@ export const createBanquet = async (
   }
   if (banquetPasscode.length < 5) {
     setPasscodeError("Passcode must be at least 5 characters long");
+    return;
+  }
+
+  if (EMOJI_REGEX.test(banquetTitle)) {
+    setTitleError("Emojis are not allowed in the title");
     return;
   }
 
