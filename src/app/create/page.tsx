@@ -9,7 +9,10 @@ const HeaderComponent = dynamic(
   () => import("@/components/Navigation/HeaderComponent"),
   {
     ssr: false,
-    loading: () => <SpinnerComponent />,
+    loading: () => {
+      const SpinnerComponent = require("@/components/SpinnerComponent").default; // Import SpinnerComponent here
+      return <SpinnerComponent />;
+    },
   }
 );
 const CreateBanquet = () => {
@@ -30,8 +33,10 @@ const CreateBanquet = () => {
 
   const router = useRouter();
   if (loading) {
+    const SpinnerComponent = require("@/components/SpinnerComponent").default; // Import SpinnerComponent here
     return <SpinnerComponent />;
   }
+
   if (!user) {
     router.push("/discover");
   }
