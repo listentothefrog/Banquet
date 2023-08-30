@@ -17,6 +17,7 @@ import {
 import { auth, db } from "../../../../firebase";
 const ChatHeader = dynamic(() => import("@/components/Navigation/ChatHeader"), {
   loading: () => <SpinnerComponent />,
+  ssr: false,
 });
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";

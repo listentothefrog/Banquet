@@ -9,6 +9,7 @@ import SpinnerComponent from "@/components/SpinnerComponent";
 const HeaderComponent = dynamic(
   () => import("@/components/Navigation/HeaderComponent"),
   {
+    ssr: false,
     loading: () => <SpinnerComponent />,
   }
 );
