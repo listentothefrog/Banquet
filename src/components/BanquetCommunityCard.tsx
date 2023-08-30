@@ -59,22 +59,6 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
     checkUserExists();
   }, [user, formattedTitle]);
 
-  const validPasscode = async () => {
-    if (userInputPasscode === passcode) {
-      const docRef = doc(db, "Banquet", formattedTitle);
-      const subCollectionRef = collection(docRef, "members");
-      const subCollectionData = {
-        uid: user?.uid,
-        role: "Member",
-        name: user?.displayName,
-      };
-      await setDoc(doc(subCollectionRef, user?.uid), subCollectionData);
-      router.push(`banquet/${formattedTitle}`);
-    } else {
-      setStatusMessage("The passcode is invalid 🔒");
-    }
-  };
-
   return (
     <div
       className={`${
@@ -187,7 +171,18 @@ const BanquetCommunityCard: React.FC<BanquetCommunityCardProps> = ({
                         </p>
                       </div>
                       <button
-                        onClick={validPasscode}
+                        onClick={() =>
+                          import("@/functions/validity").then((module) => {
+                            module.validPasscode(
+                              userInputPasscode,
+                              passcode,
+                              formattedTitle,
+                              user,
+                              setStatusMessage,
+                              router
+                            );
+                          })
+                        }
                         className="w-full mt-2 bg-black text-white ml-1 rounded-lg h-10 font-bold"
                       >
                         Join
