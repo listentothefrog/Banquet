@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import React, { Suspense, useEffect, useState } from "react";
 import {
-  addDoc,
   collection,
   doc,
   getDoc,
@@ -12,7 +11,6 @@ import {
   limit,
   orderBy,
   query,
-  serverTimestamp,
 } from "firebase/firestore";
 import { auth, db } from "../../../../firebase";
 const ChatHeader = dynamic(() => import("@/components/Navigation/ChatHeader"), {
