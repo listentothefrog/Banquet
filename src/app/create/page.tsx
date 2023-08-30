@@ -1,15 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import dynamic from "next/dynamic";
-import { MoonLoader } from "react-spinners";
+import SpinnerComponent from "@/components/SpinnerComponent";
 const HeaderComponent = dynamic(
   () => import("@/components/Navigation/HeaderComponent"),
   {
-    loading: () => <MoonLoader color="#000000" size={25} speedMultiplier={1} />,
+    loading: () => <SpinnerComponent />,
   }
 );
 const CreateBanquet = () => {
@@ -30,7 +30,7 @@ const CreateBanquet = () => {
 
   const router = useRouter();
   if (loading) {
-    return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
+    return <SpinnerComponent />;
   }
   if (!user) {
     router.push("/discover");
@@ -91,7 +91,10 @@ const CreateBanquet = () => {
         themePreference === "dark" ? "dark:bg-black dark:text-white" : ""
       } max-w-7xl flex flex-col h-screen`}
     >
-      <HeaderComponent profilePicture={user?.photoURL || ""} />
+      <Suspense fallback={<SpinnerComponent />}>
+        <HeaderComponent profilePicture={user?.photoURL || ""} />
+      </Suspense>
+
       <div className="w-full ml-3">
         <div>
           <h1 className="text-xl font-semibold mt-2">Create your Banquet 🥂</h1>
