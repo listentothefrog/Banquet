@@ -72,25 +72,13 @@ const CommunityPage = () => {
     fetchBanquetName();
   }, [pathname]);
 
-  const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
-    const banquetDocRef = doc(db, "Banquet", modifiedPath);
-    const chatsCollectionRef = collection(banquetDocRef, "chats");
-
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (userText.length > 0 && userText.length < 300) {
-      await addDoc(chatsCollectionRef, {
-        sender: user?.displayName,
-        uid: user?.uid,
-        photoURL: user?.photoURL,
-        text: userText,
-        createdAt: serverTimestamp(),
-      });
-      setUserText("");
-    } else {
-      console.log("Cant send");
-      return;
-    }
+    import("@/functions/createFunctions").then((module) => {
+      module.sendMessage(modifiedPath, userText, user, setUserText);
+    });
   };
+
   return (
     <div className="max-w-7xl h-full">
       <Suspense fallback={<SpinnerComponent />}>
@@ -135,7 +123,7 @@ const CommunityPage = () => {
       </Suspense>
 
       <form
-        onSubmit={sendMessage}
+        onSubmit={handleSubmit}
         className="fixed bottom-0 flex items-center w-full border-2 border-t-black h-16"
       >
         <input
