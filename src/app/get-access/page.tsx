@@ -7,7 +7,6 @@ import { auth } from "../../../firebase";
 import { GoogleAuthProvider, TwitterAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
-import { MoonLoader } from "react-spinners";
 
 const GoogleProvider = new GoogleAuthProvider();
 const TwitterProvider = new TwitterAuthProvider();
@@ -18,10 +17,12 @@ const GetAccess = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   if (loading) {
-    return <MoonLoader color="#000000" size={25} speedMultiplier={1} />;
+    const SpinnerComponent = require("@/components/SpinnerComponent").default; // Import SpinnerComponent here
+    return <SpinnerComponent />;
   }
   if (user) {
-    router.push("/discover");
+    const router = useRouter();
+    return router.push("/discover");
   }
 
   return (
@@ -41,7 +42,7 @@ const GetAccess = () => {
         <button
           onClick={() =>
             import("@/functions/authFunctions").then((module) => {
-              module.signInWithGoogle(GoogleProvider);
+              module.signInWithGoogle(GoogleProvider, router);
             })
           }
           className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center"
@@ -55,7 +56,7 @@ const GetAccess = () => {
         <button
           onClick={() =>
             import("@/functions/authFunctions").then((module) => {
-              module.signInWithTwitter(TwitterProvider);
+              module.signInWithTwitter(TwitterProvider, router);
             })
           }
           className=" font-extrabold h-12 w-full border-black border-2 rounded-lg flex items-center justify-center mt-5"
