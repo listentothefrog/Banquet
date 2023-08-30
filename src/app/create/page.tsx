@@ -47,45 +47,6 @@ const CreateBanquet = () => {
     setHashtagsArray(arrayFromInput);
   };
 
-  const createBanquet = async () => {
-    if (!banquetTitle || !banquetDescription || !banquetPasscode) {
-      setTitleError("Title is required");
-      setDescriptionError("Description is required");
-      setPasscodeError("Passcode is required");
-      return;
-    }
-
-    if (banquetDescription.length < 5 || banquetDescription.length > 350) {
-      setDescriptionError("Description must be between 5 and 350 characters");
-      return;
-    }
-    if (banquetPasscode.length < 5) {
-      setPasscodeError("Passcode must be at least 5 characters long");
-      return;
-    }
-
-    const lowerCaseTitle = banquetTitle.toLowerCase();
-    const formattedTitle = lowerCaseTitle.replace(/ /g, "");
-
-    await setDoc(doc(db, "Banquet", formattedTitle), {
-      title: banquetTitle,
-      description: banquetDescription,
-      hashtags: hashtagsArray,
-      passcode: banquetPasscode,
-      creatorUID: user?.uid,
-    });
-
-    const docRef = doc(db, "Banquet", formattedTitle);
-    const subCollectionRef = collection(docRef, "members");
-    const subCollectionData = {
-      uid: user?.uid,
-      role: "Owner",
-      name: user?.displayName,
-    };
-    await setDoc(doc(subCollectionRef, user?.uid), subCollectionData);
-    router.push(`banquet/${formattedTitle}`);
-  };
-
   return (
     <div
       className={`${
@@ -178,7 +139,24 @@ const CreateBanquet = () => {
         {passcodeError && (
           <p className="text-red-500 text-sm mt-2">{passcodeError}</p>
         )}
-        <div onClick={createBanquet} className="w-11/12 mt-5">
+        <div
+          onClick={() =>
+            import("@/functions/createBanquet").then((module) => {
+              module.createBanquet(
+                banquetTitle,
+                banquetDescription,
+                banquetPasscode,
+                hashtags,
+                user,
+                setTitleError,
+                setDescriptionError,
+                setPasscodeError,
+                router
+              );
+            })
+          }
+          className="w-11/12 mt-5"
+        >
           <button
             className={`${
               themePreference === "dark" ? "dark:bg-white dark:text-black" : ""
