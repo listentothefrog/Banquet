@@ -21,7 +21,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import SpinnerComponent from "@/components/SpinnerComponent";
 import Image from "next/image";
-import dots from "../../../../public/3dots.png";
+import edit from "../../../../public/edit.png";
+import deleteIcon from "../../../../public/delete.png";
 
 const CommunityPage = () => {
   const router = useRouter();
@@ -95,11 +96,18 @@ const CommunityPage = () => {
                 }`}
               >
                 {chat.uid === user?.uid ? (
-                  <div className="hover:ml-3 opacity-0 hover:opacity-100 hover:cursor-pointer text-gray-500">
+                  <div className="hover:ml-3 opacity-0 hover:opacity-100 hover:cursor-pointer text-gray-500 hover:flex">
                     <Image
-                      src={dots}
+                      src={edit}
                       width={18}
                       height={18}
+                      alt="Chat settings"
+                    />
+                    <Image
+                      src={deleteIcon}
+                      width={18}
+                      height={18}
+                      className="hover:ml-2"
                       alt="Chat settings"
                     />
                   </div>
