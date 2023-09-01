@@ -21,6 +21,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import SpinnerComponent from "@/components/SpinnerComponent";
 import Image from "next/image";
+import dots from "../../../../public/3dots.png";
 
 const CommunityPage = () => {
   const router = useRouter();
@@ -94,8 +95,18 @@ const CommunityPage = () => {
                 }`}
               >
                 {chat.uid === user?.uid ? (
-                  ""
+                  <div className="hover:ml-3 opacity-0 hover:opacity-100 hover:cursor-pointer text-gray-500">
+                    <Image
+                      src={dots}
+                      width={18}
+                      height={18}
+                      alt="Chat settings"
+                    />
+                  </div>
                 ) : (
+                  ""
+                )}
+                {chat.uid !== user?.uid && (
                   <Image
                     className="mr-2 rounded-full"
                     src={chat.photoURL}
@@ -115,6 +126,7 @@ const CommunityPage = () => {
                 >
                   {chat.text}
                 </p>
+                <div className="flex-grow"></div>
               </div>
             ))}
         </div>
